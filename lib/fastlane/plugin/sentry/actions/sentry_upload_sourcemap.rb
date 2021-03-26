@@ -18,8 +18,15 @@ module Fastlane
           "files",
           version,
           "upload-sourcemaps",
-          sourcemap.to_s
         ]
+
+        if (params[:bundle])
+          command.push('--bundle')
+          command.push(params[:bundle].to_s)
+          command.push('--bundle-sourcemap')
+        end
+
+        command.push(sourcemap.to_s)
 
         command.push('--rewrite') if params[:rewrite]
         command.push('--no-rewrite') unless params[:rewrite]
@@ -27,6 +34,8 @@ module Fastlane
         command.push('--strip-common-prefix') if params[:strip_common_prefix]
         command.push('--url-prefix').push(params[:url_prefix]) unless params[:url_prefix].nil?
         command.push('--dist').push(params[:dist]) unless params[:dist].nil?
+        command.push('--wait') unless params[:wait].nil?
+        command.push('--validate') unless params[:validate].nil?
 
         unless params[:ignore].nil?
           # normalize to array
@@ -71,6 +80,9 @@ module Fastlane
                                        verify_block: proc do |value|
                                          UI.user_error! "Could not find sourcemap at path '#{value}'" unless File.exist?(value)
                                        end),
+          FastlaneCore::ConfigItem.new(key: :bundle,
+                                       description: "Sourcemap Bundle",
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :rewrite,
                                        description: "Rewrite the sourcemaps before upload",
                                        default_value: false,
@@ -102,6 +114,16 @@ module Fastlane
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :ignore_file,
                                        description: "Ignore all files and folders specified in the given ignore file, e.g. .gitignore",
+                                       optional: true),
+          FastlaneCore::ConfigItem.new(key: :validate,
+                                       description: "Validates the bundle and sourcemap",
+                                       default_value: false,
+                                       is_string: false,
+                                       optional: true),
+          FastlaneCore::ConfigItem.new(key: :wait,
+                                       description: "Waits for the upload to finish.",
+                                       default_value: false,
+                                       is_string: false,
                                        optional: true)
 
         ]
