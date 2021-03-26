@@ -121,7 +121,7 @@ module Fastlane
                                        is_string: false,
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :wait,
-                                       description: "Waits for the upload to finish.",
+                                       description: "Waits for the upload to finish",
                                        default_value: false,
                                        is_string: false,
                                        optional: true)
