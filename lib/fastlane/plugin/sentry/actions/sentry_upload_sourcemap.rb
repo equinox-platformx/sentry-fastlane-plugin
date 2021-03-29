@@ -34,8 +34,8 @@ module Fastlane
         command.push('--strip-common-prefix') if params[:strip_common_prefix]
         command.push('--url-prefix').push(params[:url_prefix]) unless params[:url_prefix].nil?
         command.push('--dist').push(params[:dist]) unless params[:dist].nil?
-        command.push('--wait') unless params[:wait].nil?
-        command.push('--validate') unless params[:validate].nil?
+        command.push('--wait') if params[:wait]
+        command.push('--validate') if params[:validate]
 
         unless params[:ignore].nil?
           # normalize to array
