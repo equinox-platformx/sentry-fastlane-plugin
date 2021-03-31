@@ -36,6 +36,7 @@ module Fastlane
         command.push('--dist').push(params[:dist]) unless params[:dist].nil?
         command.push('--wait') if params[:wait]
         command.push('--validate') if params[:validate]
+        command.push('--log-level').push(params[:log_level]) unless params[:log_level].nil?
 
         unless params[:ignore].nil?
           # normalize to array
@@ -124,6 +125,10 @@ module Fastlane
                                        description: "Waits for the upload to finish",
                                        default_value: false,
                                        is_string: false,
+                                       optional: true)
+          FastlaneCore::ConfigItem.new(key: :log_level,
+                                       description: "Log level",
+                                       is_string: true,
                                        optional: true)
 
         ]
