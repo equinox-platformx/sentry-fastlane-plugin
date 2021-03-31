@@ -125,7 +125,7 @@ module Fastlane
                                        description: "Waits for the upload to finish",
                                        default_value: false,
                                        is_string: false,
-                                       optional: true)
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :log_level,
                                        description: "Log level",
                                        is_string: true,
